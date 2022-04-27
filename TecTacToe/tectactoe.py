@@ -61,11 +61,42 @@ def get_text(i, j, gb, l1, l2):
         gb.destroy()
         box = messagebox.showinfo("Tie Game", "Tie Game")
 # 5- function to check if the place empty or not.
+
+
 def isfree(i, j):
     return board[i][j] == " "
 # 6- function to check the whole board.
+
+
+def isfull():
+    flag = True
+    for i in board:
+        ''' 
+        The count() is a built-in function in Python. It will return the total count of a given element in a string. The counting begins from the start of the string till the end. It is also possible to specify the start and end index from where you want the search to begin.
+        '''
+        if(i.count(' ') > 0):
+            flag = False
+    return flag
 # 7- create gameboard GUI for tow player mode.
+
+
+def gameboard_pl(game_board, l1, l2):
+    global button
+    button = []
+    for i in range(3):
+        m = 3+i
+        button.append(i)
+        button[i] = []
+        for j in range(3):
+            n = j
+            button[i].append(j)
+            get_t = partial(get_text, i, j, game_board, l1, l2)
+            button[i][j] = Button(
+                game_board, bd=5, command=get_t, height=4, width=8)
+            button[i][j].grid(row=m, column=n)
+    game_board.mainloop()
 # 8- function for deciding the moves of the system.
+
 # 9- configure text on btn in one player mode.
 # 10- create the GUI of gameboard for play along with pc.
 # 11- initialize the game board to play with pc.
