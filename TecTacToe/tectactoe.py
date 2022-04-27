@@ -3,6 +3,8 @@
 # importing all the necessary libraries.
 # Tkinter GUI library.
 from tkinter import *
+from tkinter import messagebox
+
 # This module implements pseudo-random number generators.
 import random
 # module is for higher-order functions: functions that act on or return other functions.
@@ -25,7 +27,7 @@ who_is_next = 0
 '''
 
 
-def who_is_thewinner():
+def who_is_thewinner(b, l):
     return ((b[0][0] == l and b[0][1] == l and b[0][2] == l) or
             (b[1][0] == l and b[1][1] == l and b[1][2] == l) or
             (b[2][0] == l and b[2][1] == l and b[2][2] == l) or
@@ -219,34 +221,36 @@ def withplayer(game_board):
     l2.grid(row=2, column=1)
     gameboard_pl(game_board, l1, l2)
 # 13- main function to run all the prevs functions and create the gui root.
+
+
 def play():
     menu = Tk()
-    menu.geometry("250x250")
+    menu.geometry("400x400")
     menu.title("Tic Tac Toe")
     wpc = partial(withpc, menu)
     wpl = partial(withplayer, menu)
-      
-    head = Button(menu, text = "---Welcome to tic-tac-toe---",
-                  activeforeground = 'red',
-                  activebackground = "yellow", bg = "red", 
-                  fg = "yellow", width = 500, font = 'summer', bd = 5)
-      
-    B1 = Button(menu, text = "Single Player", command = wpc, 
-                activeforeground = 'red',
-                activebackground = "yellow", bg = "red", 
-                fg = "yellow", width = 500, font = 'summer', bd = 5)
-      
-    B2 = Button(menu, text = "Multi Player", command = wpl, activeforeground = 'red',
-                activebackground = "yellow", bg = "red", fg = "yellow",
-                width = 500, font = 'summer', bd = 5)
-      
-    B3 = Button(menu, text = "Exit", command = menu.quit, activeforeground = 'red',
-                activebackground = "yellow", bg = "red", fg = "yellow",
-                width = 500, font = 'summer', bd = 5)
-    head.pack(side = 'top')
-    B1.pack(side = 'top')
-    B2.pack(side = 'top')
-    B3.pack(side = 'top')
+
+    head = Button(menu, text="TecTacToe Mohammad Alghrawe",
+                  activeforeground='red',
+                  activebackground="yellow", bg="red",
+                  fg="yellow", width=500, font='summer', bd=5)
+
+    B1 = Button(menu, text="Single Player", command=wpc,
+                activeforeground='red',
+                activebackground="yellow", bg="red",
+                fg="yellow", width=500, font='summer', bd=5)
+
+    B2 = Button(menu, text="Multi Player", command=wpl, activeforeground='red',
+                activebackground="yellow", bg="red", fg="yellow",
+                width=500, font='summer', bd=5)
+
+    B3 = Button(menu, text="Exit", command=menu.quit, activeforeground='red',
+                activebackground="yellow", bg="red", fg="yellow",
+                width=500, font='summer', bd=5)
+    head.pack(side='top')
+    B1.pack(side='top')
+    B2.pack(side='top')
+    B3.pack(side='top')
     menu.mainloop()
 
 
