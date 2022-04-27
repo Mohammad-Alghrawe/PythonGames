@@ -38,9 +38,9 @@ def who_is_thewinner():
 
 
 def get_text(i, j, gb, l1, l2):
-    global sign
+    global who_is_next
     if board[i][j] == ' ':
-        if sign % 2 == 0:
+        if who_is_next % 2 == 0:
             # make the btn active or disabled depends on the turn.
             l1.config(state=DISABLED)
             l2.config(state=ACTIVE)
@@ -49,14 +49,14 @@ def get_text(i, j, gb, l1, l2):
             l2.config(state=DISABLED)
             l1.config(state=ACTIVE)
             board[i][j] = "O"
-        sign += 1
+        who_is_next += 1
         button[i][j].config(text=board[i][j])
-    if winner(board, "X"):
+    if who_is_thewinner(board, "X"):
         gb.destroy()
-        box = messagebox.showinfo("Winner", "Player 1 won the match")
-    elif winner(board, "O"):
+        box = messagebox.showinfo("who_is_thewinner", "Player 1 won the match")
+    elif who_is_thewinner(board, "O"):
         gb.destroy()
-        box = messagebox.showinfo("Winner", "Player 2 won the match")
+        box = messagebox.showinfo("who_is_thewinner", "Player 2 won the match")
     elif(isfull()):
         gb.destroy()
         box = messagebox.showinfo("Tie Game", "Tie Game")
@@ -97,7 +97,74 @@ def gameboard_pl(game_board, l1, l2):
     game_board.mainloop()
 # 8- function for deciding the moves of the system.
 
+
+def pc():
+    possiblemove = []
+    for i in range(len(board)):
+        for j in range(len(board[i])):
+            if board[i][j] == ' ':
+                possiblemove.append([i, j])
+    move = []
+    if possiblemove == []:
+        return
+    else:
+        for let in ['O', 'X']:
+            for i in possiblemove:
+                boardcopy = deepcopy(board)
+                boardcopy[i[0]][i[1]] = let
+                if who_is_thewinner(boardcopy, let):
+                    return i
+        corner = []
+        for i in possiblemove:
+            if i in [[0, 0], [0, 2], [2, 0], [2, 2]]:
+                corner.append(i)
+        if len(corner) > 0:
+            move = random.randint(0, len(corner)-1)
+            return corner[move]
+        edge = []
+        for i in possiblemove:
+            if i in [[0, 1], [1, 0], [1, 2], [2, 1]]:
+                edge.append(i)
+        if len(edge) > 0:
+            move = random.randint(0, len(edge)-1)
+            return edge[move]
+
 # 9- configure text on btn in one player mode.
+
+
+def get_text_pc(i, j, gb, l1, l2):
+    global who_is_next
+    if board[i][j] == ' ':
+        if who_is_next % 2 == 0:
+            l1.config(state=DISABLED)
+            l2.config(state=ACTIVE)
+            board[i][j] = "X"
+        else:
+            button[i][j].config(state=ACTIVE)
+            l2.config(state=DISABLED)
+            l1.config(state=ACTIVE)
+            board[i][j] = "O"
+        who_is_next += 1
+        button[i][j].config(text=board[i][j])
+    x = True
+    if who_is_thewinner(board, "X"):
+        gb.destroy()
+        x = False
+        box = messagebox.showinfo("who_is_thewinner", "Player won the match")
+    elif who_is_thewinner(board, "O"):
+        gb.destroy()
+        x = False
+        box = messagebox.showinfo("who_is_thewinner", "Computer won the match")
+    elif(isfull()):
+        gb.destroy()
+        x = False
+        box = messagebox.showinfo("Tie Game", "Tie Game")
+    if(x):
+        if who_is_next % 2 != 0:
+            move = pc()
+            button[move[0]][move[1]].config(state=DISABLED)
+            get_text_pc(move[0], move[1], gb, l1, l2)
+
 # 10- create the GUI of gameboard for play along with pc.
 # 11- initialize the game board to play with pc.
 # 12- initialize the game board to play with another.
